@@ -1,0 +1,11 @@
+{
+
+    "ext": "js,json,env",
+    "ignore": [
+        "src/**/*.test.js",
+        "node_modules"
+    ],
+    "env": {
+        "JWT_KEY": "123"
+    }
+}
