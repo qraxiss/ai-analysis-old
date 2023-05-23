@@ -26,6 +26,10 @@ async function analysis(params){
         }
     ])
 
+    if (value.json_parse){
+        result.content = JSON.parse(result.content)
+    }
+
     return result
 }
 
