@@ -16,7 +16,9 @@ async function getAiAnswer(messages) {
         throw new Error(ex.response.data.error.message)
     }
 
-    return [completion.data.choices[0].message]
+    const result = completion.data.choices[0].message
+
+    return result
 }
 
 module.exports = getAiAnswer
