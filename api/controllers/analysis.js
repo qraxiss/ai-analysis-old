@@ -22,6 +22,11 @@ class Analysis {
     static async remove(req, res, next) {
         res.json(await logic.analysis.remove(req.body))
     }
+
+    @ahandler
+    static async getAll(req, res, next) {
+        res.json(await logic.analysis.getAll(req.body))
+    }
 }
 
 module.exports = Analysis

@@ -11,4 +11,6 @@ router.delete('/', controller.remove)
 
 router.get('/', controller.get)
 
+router.get('/all', controller.getAll)
+
 module.exports = router

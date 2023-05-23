@@ -17,6 +17,18 @@ async function get(params){
     return result._doc
 }
 
+async function getAll(params){
+    const { value, error } = validators.validate(params, validators.analysis.get)
+    if (error) throw error
+
+    var result = await database.analysis.find(value,
+        {__v: 0, isDeleted: 0,deletedAt: 0, _id: 0}
+    )
+
+    return result.map(item => item._doc)
+}
+
+
 
 async function create(params){
     const { value, error } = validators.validate(params, validators.analysis.create)
@@ -70,6 +82,7 @@ async function remove(params)  {
 
 module.exports = {
     get,
+    getAll,
     create,
     update,
     remove
