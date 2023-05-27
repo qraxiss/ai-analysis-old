@@ -26,12 +26,9 @@ console.log('DB => MongoStore initalized')
 app.use(Morgan('dev'))
 app.use(Express.json({ limit: '10mb' }))
 
-let ALLOWED_ORIGINS = ['https://kale.kapsulteknoloji.org', 'https://kapsulteknoloji.org']
 
 app.use((req, res, next) => {
-  let origin = req.headers.origin
-  let theOrigin = ALLOWED_ORIGINS.indexOf(origin) >= 0 ? origin : ALLOWED_ORIGINS[0]
-  res.header('Access-Control-Allow-Origin', theOrigin)
+  res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH')
   next()
