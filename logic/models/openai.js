@@ -1,36 +1,39 @@
-const database = require('../../database')
-const validators = require('../validators')
+const database = require("../../database");
+const validators = require("../validators");
 
-const {rename, filter} = require('../helpers/filter')
+const { rename, filter } = require("../helpers/filter");
 
-const logic = require('./analysis')
-const getAiAnswer = require('../helpers/openai')
+const logic = require("./analysis");
+const getAiAnswer = require("../helpers/openai");
 
+async function analysis(params) {
+  const { value, error } = validators.validate(
+    params,
+    validators.openai.analysis
+  );
+  if (error) throw error;
 
+  const prompt = await logic.get({ key: value.key });
 
-async function analysis(params){
+  const result = await getAiAnswer(
+    [
+      {
+        role: "system",
+        content: prompt.prompt,
+      },
+      {
+        role: "user",
+        content: value.report,
+      },
+    ],
+    value.tempature
+  );
 
-    const { value, error } = validators.validate(params, validators.openai.analysis)
-    if (error) throw error
+  if (value.json_parse) {
+    result.content = JSON.parse(result.content);
+  }
 
-    const prompt = await logic.get({key: value.key})
-
-    const result = await getAiAnswer([
-        {
-            role : "system",
-            content: prompt.prompt
-        },
-        {
-            role : "user",
-            content: value.report
-        }
-    ])
-
-    if (value.json_parse){
-        result.content = JSON.parse(result.content)
-    }
-
-    return result
+  return result;
 }
 
-module.exports = { analysis }
+module.exports = { analysis };
